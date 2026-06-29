@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>WindowsScreenRecorder</RootNamespace>
     <AssemblyName>WindowsScreenRecorder</AssemblyName>
     <Nullable>enable</Nullable>
@@ -12,9 +12,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
-    <ApplicationIcon>Resources\Icons\app.ico</ApplicationIcon>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-    <Version>1.0.0</Version>
+            <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <Company>WindowsScreenRecorder</Company>
@@ -34,74 +32,3 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <Optimize>false</Optimize>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <!-- DI and Hosting -->
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-
-    <!-- Windows Graphics Capture API interop -->
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
-
-    <!-- Audio capture via WASAPI/DirectSound -->
-    <PackageReference Include="NAudio" Version="2.2.1" />
-    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
-
-    <!-- FFmpeg video/audio encoding wrapper -->
-    <PackageReference Include="FFmpeg.AutoGen" Version="6.1.1.1" />
-    <PackageReference Include="Sdcb.FFmpeg" Version="6.1.0" />
-    <PackageReference Include="Sdcb.FFmpeg.runtime.windows-x64" Version="6.1.0" />
-
-    <!-- Serilog structured logging -->
-    <PackageReference Include="Serilog" Version="3.1.1" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
-
-    <!-- Settings persistence -->
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-
-    <!-- MVVM toolkit (RelayCommand, ObservableObject, etc.) -->
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-
-    <!-- Win32 interop helpers -->
-    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
-    <PackageReference Include="PInvoke.Kernel32" Version="0.7.124" />
-
-    <!-- Hardware info (GPU detection) -->
-    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.3" />
-
-    <!-- Webcam capture -->
-    <PackageReference Include="AForge.Video" Version="2.2.5" />
-    <PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!-- App resources -->
-    <Resource Include="Resources\Styles\**\*" />
-    <None Include="Properties\app.manifest" />
-  </ItemGroup>
-
-  <!-- Copy FFmpeg native binaries to output -->
-  <ItemGroup>
-    <None Include="$(NuGetPackageRoot)sdcb.ffmpeg.runtime.windows-x64\**\*.dll"
-          Condition="Exists('$(NuGetPackageRoot)sdcb.ffmpeg.runtime.windows-x64')"
-          CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Icons\" />
-  </ItemGroup>
-
-</Project>
