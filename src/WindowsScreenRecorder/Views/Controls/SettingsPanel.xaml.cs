@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using UserControl = System.Windows.Controls.UserControl;
 using WindowsScreenRecorder.ViewModels;
 
 namespace WindowsScreenRecorder.Views.Controls
