@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Windows;
 using WindowsScreenRecorder.Core.Interfaces;
 using WindowsScreenRecorder.Core.Models;
 
@@ -9,27 +10,41 @@ namespace WindowsScreenRecorder.Services;
 public class DeviceEnumerationService : IDeviceEnumerationService
 {
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
-    private delegate bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
+    private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumDelegate lpfnEnum, IntPtr dwData);
+    private delegate bool MonitorEnumDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeRect lprcMonitor, IntPtr dwData);
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
+    private static extern bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-    private struct MONITORINFOEX { public int cbSize; public RECT rcMonitor; public RECT rcWork; public int dwFlags; [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string szDevice; }
+    private struct MONITORINFOEX { public int cbSize; public NativeRect rcMonitor; public NativeRect rcWork; public int dwFlags; [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string szDevice; }
     [StructLayout(LayoutKind.Sequential)]
-    private struct RECT { public int left, top, right, bottom; }
+    private struct NativeRect { public int left, top, right, bottom; }
 
     public IReadOnlyList<MonitorInfo> GetMonitors()
     {
         var monitors = new List<MonitorInfo>();
         int idx = 0;
-        EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, (hMon, hdc, ref rect, data) =>
+        MonitorEnumDelegate del = (IntPtr hMon, IntPtr hdc, ref NativeRect rect, IntPtr data) =>
         {
-            var mi = new MONITORINFOEX(); mi.cbSize = Marshal.SizeOf(mi);
-            if (GetMonitorInfo(hMon, ref mi))
-                monitors.Add(new MonitorInfo { Index = idx++, DeviceName = mi.szDevice, Width = mi.rcMonitor.right - mi.rcMonitor.left, Height = mi.rcMonitor.bottom - mi.rcMonitor.top, X = mi.rcMonitor.left, Y = mi.rcMonitor.top, IsPrimary = (mi.dwFlags & 1) != 0, Handle = hMon });
+            var mi = new MONITORINFOEX();
+            mi.cbSize = Marshal.SizeOf(mi);
+            if (GetMonitorInfoW(hMon, ref mi))
+            {
+                var bounds = new Rect(mi.rcMonitor.left, mi.rcMonitor.top, mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+                monitors.Add(new MonitorInfo
+                {
+                    Index = idx++,
+                    DeviceName = mi.szDevice,
+                    FriendlyName = mi.szDevice,
+                    Bounds = bounds,
+                    WorkArea = new Rect(mi.rcWork.left, mi.rcWork.top, mi.rcWork.right - mi.rcWork.left, mi.rcWork.bottom - mi.rcWork.top),
+                    IsPrimary = (mi.dwFlags & 1) != 0,
+                    Handle = hMon
+                });
+            }
             return true;
-        }, IntPtr.Zero);
+        };
+        EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, del, IntPtr.Zero);
         return monitors;
     }
 
