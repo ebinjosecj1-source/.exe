@@ -1,3 +1,4 @@
+using System.IO;
 using System.Windows;
 using WindowsScreenRecorder.Core.Enums;
 
@@ -16,8 +17,8 @@ public sealed class MonitorInfo
 
     public override string ToString() =>
         IsPrimary
-            ? $"{FriendlyName} (Primary) — {(int)Bounds.Width}×{(int)Bounds.Height}"
-            : $"{FriendlyName} — {(int)Bounds.Width}×{(int)Bounds.Height}";
+            ? $"{FriendlyName} (Primary) â {(int)Bounds.Width}Ã{(int)Bounds.Height}"
+            : $"{FriendlyName} â {(int)Bounds.Width}Ã{(int)Bounds.Height}";
 }
 
 /// <summary>Represents a capturable application window.</summary>
@@ -65,7 +66,7 @@ public sealed class EncoderCapability
     public bool IsAvailable { get; init; }
 }
 
-/// <summary>Full application settings — serialized to JSON.</summary>
+/// <summary>Full application settings â serialized to JSON.</summary>
 public sealed class AppSettings
 {
     // Capture
