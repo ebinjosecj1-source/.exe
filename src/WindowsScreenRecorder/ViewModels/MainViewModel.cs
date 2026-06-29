@@ -104,7 +104,6 @@ public sealed partial class MainViewModel : ObservableObject
         IGlobalHotkeyService hotkeys,
         IHardwareDetectionService hwDetection,
         IFileManagementService fileManager,
-        NotificationService notifications,
         ILogger<MainViewModel> logger)
     {
         _recording = recording;
