@@ -19,8 +19,6 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="#888888"/>
             <Setter Property="Margin" Value="0,16,0,8"/>
-            <Setter Property="TextTransform" Value="Uppercase"/>
-            <Setter Property="LetterSpacing" Value="1"/>
         </Style>
 
         <!-- Label style -->
@@ -45,7 +43,7 @@
             <RowDefinition Height="60"/>   <!-- Footer buttons -->
         </Grid.RowDefinitions>
 
-        <!-- ─── Panel Header ────────────────────────────────────────────────── -->
+        <!-- âââ Panel Header ââââââââââââââââââââââââââââââââââââââââââââââââââ -->
         <Border Grid.Row="0"
                 BorderBrush="#2A2A2A"
                 BorderThickness="0,0,0,1"
@@ -60,14 +58,14 @@
             </Grid>
         </Border>
 
-        <!-- ─── Scrollable Settings Content ─────────────────────────────────── -->
+        <!-- âââ Scrollable Settings Content âââââââââââââââââââââââââââââââââââ -->
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled"
                       Padding="16,0">
             <StackPanel Margin="0,8,0,8">
 
-                <!-- ══ VIDEO ══════════════════════════════════════════════════ -->
+                <!-- ââ VIDEO ââââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="VIDEO" Style="{StaticResource SectionHeader}"/>
 
                 <!-- Frame Rate -->
@@ -176,7 +174,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <!-- ══ AUDIO ══════════════════════════════════════════════════ -->
+                <!-- ââ AUDIO ââââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="AUDIO" Style="{StaticResource SectionHeader}"/>
 
                 <TextBlock Text="Audio Mode" Style="{StaticResource FieldLabel}"/>
@@ -246,7 +244,7 @@
                              Padding="6,4"/>
                 </StackPanel>
 
-                <!-- ══ MOUSE ══════════════════════════════════════════════════ -->
+                <!-- ââ MOUSE ââââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="MOUSE" Style="{StaticResource SectionHeader}"/>
 
                 <CheckBox Content="Record cursor"
@@ -290,7 +288,7 @@
                           IsChecked="{Binding EnableCursorZoom}"
                           Foreground="#CCCCCC" Margin="0,0,0,8"/>
 
-                <!-- ══ OUTPUT ═════════════════════════════════════════════════ -->
+                <!-- ââ OUTPUT âââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="OUTPUT" Style="{StaticResource SectionHeader}"/>
 
                 <TextBlock Text="Output Directory" Style="{StaticResource FieldLabel}"/>
@@ -320,7 +318,7 @@
                          BorderBrush="#333333" BorderThickness="1"
                          Padding="6,4" Margin="0,0,0,8"/>
 
-                <!-- ══ HOTKEYS ════════════════════════════════════════════════ -->
+                <!-- ââ HOTKEYS ââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="HOTKEYS" Style="{StaticResource SectionHeader}"/>
 
                 <TextBlock Text="Start Recording" Style="{StaticResource FieldLabel}"/>
@@ -347,7 +345,7 @@
                          BorderBrush="#333333" BorderThickness="1"
                          Padding="6,4" Margin="0,0,0,8"/>
 
-                <!-- ══ TIMING ═════════════════════════════════════════════════ -->
+                <!-- ââ TIMING âââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="TIMING" Style="{StaticResource SectionHeader}"/>
 
                 <TextBlock Text="Countdown (seconds)" Style="{StaticResource FieldLabel}"/>
@@ -371,7 +369,7 @@
                                Foreground="#888888" FontSize="11"/>
                 </StackPanel>
 
-                <!-- ══ MAINTENANCE ════════════════════════════════════════════ -->
+                <!-- ââ MAINTENANCE ââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="MAINTENANCE" Style="{StaticResource SectionHeader}"/>
 
                 <CheckBox Content="Auto-delete old recordings"
@@ -388,7 +386,7 @@
                                Foreground="#888888" FontSize="11"/>
                 </StackPanel>
 
-                <!-- ══ WEBCAM ══════════════════════════════════════════════════ -->
+                <!-- ââ WEBCAM ââââââââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="WEBCAM OVERLAY" Style="{StaticResource SectionHeader}"/>
 
                 <CheckBox Content="Enable webcam overlay"
@@ -417,7 +415,7 @@
                                Foreground="#888888" FontSize="11" Margin="0,0,0,8"/>
                 </StackPanel>
 
-                <!-- ══ APPEARANCE ═════════════════════════════════════════════ -->
+                <!-- ââ APPEARANCE âââââââââââââââââââââââââââââââââââââââââââââ -->
                 <TextBlock Text="APPEARANCE" Style="{StaticResource SectionHeader}"/>
 
                 <TextBlock Text="Theme" Style="{StaticResource FieldLabel}"/>
@@ -442,7 +440,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- ─── Footer Buttons ───────────────────────────────────────────────── -->
+        <!-- âââ Footer Buttons âââââââââââââââââââââââââââââââââââââââââââââââââ -->
         <Border Grid.Row="2"
                 BorderBrush="#2A2A2A"
                 BorderThickness="0,1,0,0"
