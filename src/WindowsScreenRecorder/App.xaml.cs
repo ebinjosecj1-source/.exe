@@ -10,9 +10,6 @@ using WindowsScreenRecorder.Services.Capture;
 using WindowsScreenRecorder.Services.Encoding;
 using WindowsScreenRecorder.Services.FileManagement;
 using WindowsScreenRecorder.Services.Hotkeys;
-using WindowsScreenRecorder.Services.Notifications;
-using WindowsScreenRecorder.Services.Update;
-using WindowsScreenRecorder.Services.Video;
 using WindowsScreenRecorder.ViewModels;
 using WindowsScreenRecorder.Views;
 
@@ -102,8 +99,6 @@ public partial class App : Application
         services.AddSingleton<IRecordingService, RecordingService>();
 
         // Update service
-        services.AddSingleton<IUpdateService, UpdateService>();
-
         // Webcam overlay
         services.AddTransient<IWebcamService, WebcamService>();
 
