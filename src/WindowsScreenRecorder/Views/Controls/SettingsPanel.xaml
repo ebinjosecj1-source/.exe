@@ -107,14 +107,14 @@
                         <TextBox Text="{Binding CustomWidth, UpdateSourceTrigger=PropertyChanged}"
                                  Background="#1A1A1A" Foreground="#FFFFFF"
                                  BorderBrush="#333333" BorderThickness="1"
-                                 Padding="6,4" CornerRadius="4"/>
+                                 Padding="6,4"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Height (px)" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding CustomHeight, UpdateSourceTrigger=PropertyChanged}"
                                  Background="#1A1A1A" Foreground="#FFFFFF"
                                  BorderBrush="#333333" BorderThickness="1"
-                                 Padding="6,4" CornerRadius="4"/>
+                                 Padding="6,4"/>
                     </StackPanel>
                 </Grid>
 
@@ -159,7 +159,7 @@
                 <TextBox Text="{Binding VideoBitrateKbps, UpdateSourceTrigger=PropertyChanged}"
                          Background="#1A1A1A" Foreground="#FFFFFF"
                          BorderBrush="#333333" BorderThickness="1"
-                         Padding="6,4" CornerRadius="4" Margin="0,0,0,8"/>
+                         Padding="6,4" Margin="0,0,0,8"/>
 
                 <!-- Hardware Acceleration -->
                 <TextBlock Text="Hardware Acceleration" Style="{StaticResource FieldLabel}"/>
@@ -243,7 +243,7 @@
                     <TextBox Text="{Binding PushToTalkKey}"
                              Background="#1A1A1A" Foreground="#FFFFFF"
                              BorderBrush="#333333" BorderThickness="1"
-                             Padding="6,4" CornerRadius="4"/>
+                             Padding="6,4"/>
                 </StackPanel>
 
                 <!-- ══ MOUSE ══════════════════════════════════════════════════ -->
@@ -304,21 +304,21 @@
                              Text="{Binding OutputDirectory}"
                              Background="#1A1A1A" Foreground="#FFFFFF"
                              BorderBrush="#333333" BorderThickness="1"
-                             Padding="6,4" CornerRadius="4"
+                             Padding="6,4"
                              IsReadOnly="True"/>
                     <Button Grid.Column="2"
                             Content="Browse..."
                             Command="{Binding BrowseOutputDirectoryCommand}"
                             Background="#242424" Foreground="#FFFFFF"
                             BorderBrush="#333333" BorderThickness="1"
-                            Padding="8,4" CornerRadius="4" Cursor="Hand"/>
+                            Padding="8,4" Cursor="Hand"/>
                 </Grid>
 
                 <TextBlock Text="Filename Format" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding FilenameFormat}"
                          Background="#1A1A1A" Foreground="#FFFFFF"
                          BorderBrush="#333333" BorderThickness="1"
-                         Padding="6,4" CornerRadius="4" Margin="0,0,0,8"/>
+                         Padding="6,4" Margin="0,0,0,8"/>
 
                 <!-- ══ HOTKEYS ════════════════════════════════════════════════ -->
                 <TextBlock Text="HOTKEYS" Style="{StaticResource SectionHeader}"/>
@@ -327,25 +327,25 @@
                 <TextBox Text="{Binding HotkeyStart}"
                          Background="#1A1A1A" Foreground="#FFFFFF"
                          BorderBrush="#333333" BorderThickness="1"
-                         Padding="6,4" CornerRadius="4" Margin="0,0,0,8"/>
+                         Padding="6,4" Margin="0,0,0,8"/>
 
                 <TextBlock Text="Pause Recording" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding HotkeyPause}"
                          Background="#1A1A1A" Foreground="#FFFFFF"
                          BorderBrush="#333333" BorderThickness="1"
-                         Padding="6,4" CornerRadius="4" Margin="0,0,0,8"/>
+                         Padding="6,4" Margin="0,0,0,8"/>
 
                 <TextBlock Text="Stop Recording" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding HotkeyStop}"
                          Background="#1A1A1A" Foreground="#FFFFFF"
                          BorderBrush="#333333" BorderThickness="1"
-                         Padding="6,4" CornerRadius="4" Margin="0,0,0,8"/>
+                         Padding="6,4" Margin="0,0,0,8"/>
 
                 <TextBlock Text="Screenshot" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding HotkeyScreenshot}"
                          Background="#1A1A1A" Foreground="#FFFFFF"
                          BorderBrush="#333333" BorderThickness="1"
-                         Padding="6,4" CornerRadius="4" Margin="0,0,0,8"/>
+                         Padding="6,4" Margin="0,0,0,8"/>
 
                 <!-- ══ TIMING ═════════════════════════════════════════════════ -->
                 <TextBlock Text="TIMING" Style="{StaticResource SectionHeader}"/>
@@ -460,7 +460,7 @@
                         Background="Transparent"
                         Foreground="#888888"
                         BorderBrush="#333333" BorderThickness="1"
-                        Padding="12,8" CornerRadius="6" Cursor="Hand"/>
+                        Padding="12,8" Cursor="Hand"/>
 
                 <Button Grid.Column="2"
                         Content="Save Settings"
@@ -468,7 +468,7 @@
                         Background="#3D8EFF"
                         Foreground="#FFFFFF"
                         BorderThickness="0"
-                        Padding="16,8" CornerRadius="6" Cursor="Hand"
+                        Padding="16,8" Cursor="Hand"
                         FontWeight="SemiBold"/>
             </Grid>
         </Border>
