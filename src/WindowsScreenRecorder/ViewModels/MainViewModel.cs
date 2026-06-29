@@ -155,6 +155,9 @@ public sealed partial class MainViewModel : ObservableObject
     {
         string path = await _recording.StopAsync();
         if (!string.IsNullOrEmpty(path))
+                    {
+                                    LastOutputFilePath = path;
+                                                }
     }
     private bool CanStop() =>
         RecordingState is RecordingState.Recording or RecordingState.Paused;
