@@ -2,9 +2,10 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using WindowsScreenRecorder.Core.Enums;
 using WindowsScreenRecorder.Core.Interfaces;
 using WindowsScreenRecorder.Core.Models;
 
@@ -12,65 +13,66 @@ namespace WindowsScreenRecorder.Services.Capture;
 
 public class ScreenCaptureService : IScreenCaptureService
 {
-    private bool _isCapturing;
+    private volatile bool _isCapturing;
     private CancellationTokenSource? _cts;
-    private RecordingConfiguration? _config;
-    public event Action<byte[]>? FrameCaptured;
 
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetDesktopWindow();
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetWindowDC(IntPtr hWnd);
-    [DllImport("gdi32.dll")]
-    private static extern bool BitBlt(IntPtr hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
-    [DllImport("user32.dll")]
-    private static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+    public bool IsCapturing => _isCapturing;
 
-    public Task StartCaptureAsync(RecordingConfiguration config, CancellationToken ct)
+    public Task StartAsync(
+        CaptureMode mode,
+        MonitorInfo? monitor,
+        WindowInfo? window,
+        Rect customRegion,
+        int targetFps,
+        Func<CaptureFrame, Task> frameCallback,
+        CancellationToken cancellationToken)
     {
-        _config = config;
         _isCapturing = true;
-        _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-        Task.Run(() => CaptureLoop(_cts.Token));
+        _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var token = _cts.Token;
+        _ = Task.Run(async () =>
+        {
+            var screenWidth = System.Windows.Forms.Screen.PrimaryScreen?.Bounds.Width ?? 1920;
+            var screenHeight = System.Windows.Forms.Screen.PrimaryScreen?.Bounds.Height ?? 1080;
+            int delay = targetFps > 0 ? 1000 / targetFps : 33;
+            while (!token.IsCancellationRequested && _isCapturing)
+            {
+                try
+                {
+                    using var bmp = new Bitmap(screenWidth, screenHeight, PixelFormat.Format32bppArgb);
+                    using var g = Graphics.FromImage(bmp);
+                    g.CopyFromScreen(0, 0, 0, 0, new System.Drawing.Size(screenWidth, screenHeight));
+                    var bmpData = bmp.LockBits(new Rectangle(0, 0, screenWidth, screenHeight),
+                        ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                    var bytes = new byte[Math.Abs(bmpData.Stride) * screenHeight];
+                    System.Runtime.InteropServices.Marshal.Copy(bmpData.Scan0, bytes, 0, bytes.Length);
+                    bmp.UnlockBits(bmpData);
+                    var frame = new CaptureFrame
+                    {
+                        Data = bytes,
+                        Width = screenWidth,
+                        Height = screenHeight,
+                        TimestampTicks = DateTime.UtcNow.Ticks
+                    };
+                    await frameCallback(frame).ConfigureAwait(false);
+                }
+                catch { }
+                await Task.Delay(delay, token).ConfigureAwait(false);
+            }
+        }, token);
         return Task.CompletedTask;
     }
 
-    public Task StopCaptureAsync()
+    public Task StopAsync()
     {
         _isCapturing = false;
         _cts?.Cancel();
         return Task.CompletedTask;
     }
 
-    private async Task CaptureLoop(CancellationToken ct)
+    public void Dispose()
     {
-        var screenWidth = System.Windows.Forms.Screen.PrimaryScreen?.Bounds.Width ?? 1920;
-        var screenHeight = System.Windows.Forms.Screen.PrimaryScreen?.Bounds.Height ?? 1080;
-        while (!ct.IsCancellationRequested && _isCapturing)
-        {
-            try
-            {
-                using var bmp = new Bitmap(screenWidth, screenHeight, PixelFormat.Format32bppArgb);
-                using var g = Graphics.FromImage(bmp);
-                g.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
-                using var ms = new MemoryStream();
-                bmp.Save(ms, ImageFormat.Bmp);
-                FrameCaptured?.Invoke(ms.ToArray());
-            }
-            catch { }
-            await Task.Delay(33, ct).ConfigureAwait(false);
-        }
-    }
-
-    public Task<byte[]> CaptureScreenshotAsync()
-    {
-        var screenWidth = System.Windows.Forms.Screen.PrimaryScreen?.Bounds.Width ?? 1920;
-        var screenHeight = System.Windows.Forms.Screen.PrimaryScreen?.Bounds.Height ?? 1080;
-        using var bmp = new Bitmap(screenWidth, screenHeight, PixelFormat.Format32bppArgb);
-        using var g = Graphics.FromImage(bmp);
-        g.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
-        using var ms = new MemoryStream();
-        bmp.Save(ms, ImageFormat.Png);
-        return Task.FromResult(ms.ToArray());
+        _cts?.Cancel();
+        _cts?.Dispose();
     }
 }
