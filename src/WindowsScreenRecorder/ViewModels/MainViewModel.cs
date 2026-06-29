@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using WindowsScreenRecorder.Core.Enums;
 using WindowsScreenRecorder.Core.Interfaces;
 using WindowsScreenRecorder.Core.Models;
-using WindowsScreenRecorder.Services.Notifications;
 
 namespace WindowsScreenRecorder.ViewModels;
 
@@ -26,7 +25,7 @@ public sealed partial class MainViewModel : ObservableObject
     private readonly NotificationService _notifications;
     private readonly ILogger<MainViewModel> _logger;
 
-    // ─── Observable Properties ────────────────────────────────────────────────
+    // âââ Observable Properties ââââââââââââââââââââââââââââââââââââââââââââââââ
 
     [ObservableProperty]
     private RecordingState _recordingState = RecordingState.Idle;
@@ -97,7 +96,7 @@ public sealed partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private bool _isSettingsOpen;
 
-    // ─── Constructor ──────────────────────────────────────────────────────────
+    // âââ Constructor ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     public MainViewModel(
         IRecordingService recording,
@@ -121,7 +120,7 @@ public sealed partial class MainViewModel : ObservableObject
         SubscribeToEvents();
     }
 
-    // ─── Commands ─────────────────────────────────────────────────────────────
+    // âââ Commands âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     [RelayCommand(CanExecute = nameof(CanStartRecording))]
     private async Task StartRecordingAsync()
@@ -202,7 +201,7 @@ public sealed partial class MainViewModel : ObservableObject
         LoadDevices();
     }
 
-    // ─── Initialization ───────────────────────────────────────────────────────
+    // âââ Initialization âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     public async Task InitializeAsync()
     {
@@ -285,7 +284,7 @@ public sealed partial class MainViewModel : ObservableObject
         s.CaptureMode = CaptureMode;
     }
 
-    // ─── Event Subscriptions ──────────────────────────────────────────────────
+    // âââ Event Subscriptions ââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     private void SubscribeToEvents()
     {
@@ -361,7 +360,7 @@ public sealed partial class MainViewModel : ObservableObject
     {
         if (RecordingState is RecordingState.Recording or RecordingState.Paused)
         {
-            _logger.LogInformation("Window closing while recording active — stopping recording");
+            _logger.LogInformation("Window closing while recording active â stopping recording");
 
             // Block briefly to allow the encoder to finalize the file
             _recording.StopAsync().GetAwaiter().GetResult();
