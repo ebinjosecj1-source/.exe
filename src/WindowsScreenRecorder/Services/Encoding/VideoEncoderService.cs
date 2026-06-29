@@ -10,30 +10,17 @@ namespace WindowsScreenRecorder.Services.Encoding;
 /// <summary>Stub video encoder service. Full FFmpeg encoding to be implemented in Phase 2.</summary>
 public class VideoEncoderService : IVideoEncoderService
 {
-    public bool IsEncoding { get; private set; }
-
-    public Task StartEncodingAsync(
-        AppSettings settings,
-        string outputPath,
-        CancellationToken cancellationToken)
+    public Task InitializeAsync(EncoderConfig config)
     {
-        IsEncoding = true;
-        Directory.CreateDirectory(Path.GetDirectoryName(outputPath) ?? string.Empty);
+        Directory.CreateDirectory(Path.GetDirectoryName(config.OutputPath) ?? string.Empty);
         return Task.CompletedTask;
     }
 
-    public Task EncodeFrameAsync(CaptureFrame frame) => Task.CompletedTask;
+    public Task WriteVideoFrameAsync(CaptureFrame frame) => Task.CompletedTask;
 
-    public Task EncodeAudioAsync(AudioFrame audio) => Task.CompletedTask;
+    public Task WriteAudioFrameAsync(AudioFrame frame) => Task.CompletedTask;
 
-    public Task<string> StopEncodingAsync()
-    {
-        IsEncoding = false;
-        return Task.FromResult(string.Empty);
-    }
+    public Task FinalizeAsync() => Task.CompletedTask;
 
-    public void Dispose()
-    {
-        IsEncoding = false;
-    }
+    public void Dispose() { }
 }
