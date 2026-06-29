@@ -100,8 +100,7 @@
                             <TextBlock Text="CAPTURE MODE"
                                        Style="{StaticResource TextCaption}"
                                        Margin="0,0,0,6"
-                                       FontWeight="SemiBold"
-                                       LetterSpacing="1"/>
+                                       FontWeight="SemiBold"/>
 
                             <RadioButton Content="Full Desktop"
                                          IsChecked="{Binding CaptureMode,
