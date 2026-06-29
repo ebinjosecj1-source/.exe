@@ -1,14 +1,8 @@
 using System.Windows.Controls;
-using UserControl = System.Windows.Controls.UserControl;
-using WindowsScreenRecorder.ViewModels;
 
 namespace WindowsScreenRecorder.Views.Controls
 {
-    /// <summary>
-    /// Code-behind for SettingsPanel.xaml.
-    /// The DataContext is set by the parent window via DI; no logic lives here.
-    /// </summary>
-    public partial class SettingsPanel : UserControl
+    public partial class SettingsPanel : System.Windows.Controls.UserControl
     {
         public SettingsPanel()
         {
