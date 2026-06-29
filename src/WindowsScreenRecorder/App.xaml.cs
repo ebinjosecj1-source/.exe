@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
 using System.Windows;
+using Application = System.Windows.Application;
 using WindowsScreenRecorder.Core.Interfaces;
 using WindowsScreenRecorder.Services;
 using WindowsScreenRecorder.Services.Audio;
