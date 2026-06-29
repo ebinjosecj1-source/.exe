@@ -3,11 +3,13 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
+using Color = System.Windows.Media.Color;
+using Brushes = System.Windows.Media.Brushes;
 using WindowsScreenRecorder.Core.Enums;
 
 namespace WindowsScreenRecorder.Converters
 {
-    // âââ RecordingStateToColorConverter âââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ RecordingStateToColorConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Maps the current RecordingState to a SolidColorBrush for the record button
     // and status indicator dot in the UI.
 
@@ -23,7 +25,7 @@ namespace WindowsScreenRecorder.Converters
             {
                 RecordingState.Recording => new SolidColorBrush(Color.FromRgb(0xE8, 0x28, 0x4F)),  // AccentRed
                 RecordingState.Paused    => new SolidColorBrush(Color.FromRgb(0xFF, 0xA5, 0x00)),  // Amber
-                RecordingState.Stopped   => new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0xFF)),  // AccentBlue
+                RecordingState.Idle   => new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0xFF)),  // AccentBlue
                 RecordingState.Countdown => new SolidColorBrush(Color.FromRgb(0xFF, 0xD7, 0x00)),  // Yellow
                 _                        => new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55)),  // Disabled gray
             };
@@ -33,7 +35,7 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ RecordingStateToBoolConverter ââââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ RecordingStateToBoolConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Returns true when the state matches the ConverterParameter string.
     // Usage: Converter={StaticResource StateToBoolConverter}, ConverterParameter=Recording
 
@@ -50,15 +52,15 @@ namespace WindowsScreenRecorder.Converters
                 return state == expected;
 
             // With no parameter, return true when NOT in Stopped state (i.e. active)
-            return state != RecordingState.Stopped;
+            return state != RecordingState.Idle;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             => throw new NotSupportedException();
     }
 
-    // âââ BoolToVisibilityConverter âââââââââââââââââââââââââââââââââââââââââââââââ
-    // true â Visible, false â Collapsed (standard pattern).
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ BoolToVisibilityConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
+    // true Ã¢ÂÂ Visible, false Ã¢ÂÂ Collapsed (standard pattern).
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public sealed class BoolToVisibilityConverter : IValueConverter
@@ -70,8 +72,8 @@ namespace WindowsScreenRecorder.Converters
             => value is Visibility.Visible;
     }
 
-    // âââ InverseBoolToVisibilityConverter âââââââââââââââââââââââââââââââââââââââ
-    // true â Collapsed, false â Visible (inverse of above).
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ InverseBoolToVisibilityConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
+    // true Ã¢ÂÂ Collapsed, false Ã¢ÂÂ Visible (inverse of above).
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public sealed class InverseBoolToVisibilityConverter : IValueConverter
@@ -83,8 +85,8 @@ namespace WindowsScreenRecorder.Converters
             => value is Visibility.Collapsed;
     }
 
-    // âââ LevelToWidthConverter âââââââââââââââââââââââââââââââââââââââââââââââââââ
-    // Converts a float audio level (0.0â1.0) to a pixel Width for the VU meter bar.
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ LevelToWidthConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
+    // Converts a float audio level (0.0Ã¢ÂÂ1.0) to a pixel Width for the VU meter bar.
     // ConverterParameter = total bar width in pixels (default 120).
 
     [ValueConversion(typeof(double), typeof(double))]
@@ -111,9 +113,9 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ EnumToDisplayNameConverter âââââââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ EnumToDisplayNameConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Formats enum values into human-readable strings by inserting spaces before
-    // capital letters: "HighQuality" â "High Quality", "H264" â "H264".
+    // capital letters: "HighQuality" Ã¢ÂÂ "High Quality", "H264" Ã¢ÂÂ "H264".
 
     [ValueConversion(typeof(Enum), typeof(string))]
     public sealed class EnumToDisplayNameConverter : IValueConverter
@@ -143,7 +145,7 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ BoolToBrushConverter ââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ BoolToBrushConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Returns TrueBrush when the bound bool is true, FalseBrush otherwise.
     // Used inline in XAML for conditional border colors (e.g., error notification).
 
@@ -159,8 +161,8 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ NullToVisibilityConverter âââââââââââââââââââââââââââââââââââââââââââââââ
-    // null â Collapsed, non-null â Visible. Useful for optional device bindings.
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ NullToVisibilityConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
+    // null Ã¢ÂÂ Collapsed, non-null Ã¢ÂÂ Visible. Useful for optional device bindings.
 
     [ValueConversion(typeof(object), typeof(Visibility))]
     public sealed class NullToVisibilityConverter : IValueConverter
@@ -172,8 +174,8 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ StringEmptyToVisibilityConverter âââââââââââââââââââââââââââââââââââââââ
-    // Empty/null string â Collapsed, non-empty â Visible.
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ StringEmptyToVisibilityConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
+    // Empty/null string Ã¢ÂÂ Collapsed, non-empty Ã¢ÂÂ Visible.
 
     [ValueConversion(typeof(string), typeof(Visibility))]
     public sealed class StringEmptyToVisibilityConverter : IValueConverter
@@ -185,9 +187,9 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ PercentageConverter âââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ PercentageConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Multiplies a double value by the ConverterParameter percentage.
-    // e.g., value=200, parameter=0.5 â 100. Used for responsive width calculations.
+    // e.g., value=200, parameter=0.5 Ã¢ÂÂ 100. Used for responsive width calculations.
 
     [ValueConversion(typeof(double), typeof(double))]
     public sealed class PercentageConverter : IValueConverter
@@ -204,7 +206,7 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ TimeSpanToStringConverter âââââââââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ TimeSpanToStringConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Formats a TimeSpan into HH:MM:SS for the recording timer display.
 
     [ValueConversion(typeof(TimeSpan), typeof(string))]
@@ -221,7 +223,7 @@ namespace WindowsScreenRecorder.Converters
             => throw new NotSupportedException();
     }
 
-    // âââ FileSizeConverter âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+    // Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ FileSizeConverter Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ
     // Formats a long byte count into a human-readable size string (KB / MB / GB).
 
     [ValueConversion(typeof(long), typeof(string))]
