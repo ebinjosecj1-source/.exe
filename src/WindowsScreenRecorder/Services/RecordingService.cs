@@ -1,3 +1,4 @@
+using System.IO;
 using System.Diagnostics;
 using System.Windows;
 using Microsoft.Extensions.Logging;
@@ -255,7 +256,7 @@ public sealed class RecordingService : IRecordingService
         _logger.LogInformation("Screenshot saved: {Path}", path);
     }
 
-    // ─── Private Pipeline ─────────────────────────────────────────────────────
+    // âââ Private Pipeline âââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     private async Task RunCaptureAsync(
         AppSettings settings,
